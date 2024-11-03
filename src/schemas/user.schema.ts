@@ -11,6 +11,8 @@ export class User {
     age: number
     @Prop({ required: true })
     gender: UserGender
+    @Prop()
+    password: string
 }
 export enum UserGender {
     MALE = 1,

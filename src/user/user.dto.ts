@@ -4,9 +4,11 @@ export class UserDto {
     @IsNumber()
     age: number;
     @IsNotEmpty()
-    userName: number;
+    userName: string;
     @IsNotEmpty()
     address: number;
     @IsNotEmpty()
     gender: number;
+    @IsNotEmpty()
+    password: string;
 }
