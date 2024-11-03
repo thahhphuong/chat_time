@@ -26,10 +26,6 @@ export class AuthService {
         body.password = hashPassword
 
         const createUser = await this.userService.create(body)
-
-        // if (user.password != body.password) {
-        //     throw new UnauthorizedException()
-        // }
         return createUser
     }
 
