@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { isBoolean, isEmpty, IsEmpty, isNotEmpty } from "class-validator";
+import { IsBoolean, isBoolean, isEmpty, IsEmpty, isNotEmpty } from "class-validator";
 import { UserDto } from "src/user/user.dto";
 import { UserService } from "src/user/user.service";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -14,24 +15,44 @@ export class AuthService {
     async singUp(body: UserDto): Promise<any> {
         const user = await this.userService.getInfoByUserName(body.userName)
 
-        if (!user) {
-            throw new Error("invalid user")
+        if (user) {
+            throw new HttpException(
+                "user invalid", HttpStatus.BAD_REQUEST
+            )
         }
-        if (user.password != body.password) {
-            throw new UnauthorizedException()
-        }
-        const { password, ...res } = user
-        return res
+        const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_OR_ROUNDS));
+        const hashPassword = bcrypt.hashSync(body.password, salt);
+
+        body.password = hashPassword
+
+        const createUser = await this.userService.create(body)
+
+        // if (user.password != body.password) {
+        //     throw new UnauthorizedException()
+        // }
+        return createUser
     }
 
     async singIn(username: string, pass: string): Promise<any> {
         const user = await this.userService.getInfoByUserName(username)
-        if (user.password != pass) {
-            throw new UnauthorizedException()
+        if (!user) {
+            throw new HttpException(
+                "user invalid", HttpStatus.BAD_REQUEST
+            )
+        }
+        const checkPass = bcrypt.compareSync(pass, user.password)
+        if (!checkPass) {
+            throw new HttpException(
+                "password invalid", HttpStatus.BAD_REQUEST
+            )
         }
         const payload = { user: user.userName };
-        const access_token = await this.jwtService.signAsync(payload)
-        const refresh_token = await this.jwtService.signAsync(payload)
-        return { access_token, refresh_token }
+        const access_token = await this.jwtService.signAsync(payload, {
+            expiresIn: "1h"
+        })
+        const refresh_token = await this.jwtService.signAsync(payload, {
+            expiresIn: "5h"
+        })
+        return { access_token, refresh_token, user }
     }
 }
