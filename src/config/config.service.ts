@@ -6,4 +6,9 @@ export class EnviromentConfig {
     databaseHost(): string {
         return this.configService.get<string>('MONGODB_URI');
     }
+    privateTokenKey(): string {
+        console.log(this.configService.get<string>('PRIVATE_KEY_TOKEN'));
+
+        return this.configService.get<string>('PRIVATE_KEY_TOKEN');
+    }
 }
