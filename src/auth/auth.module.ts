@@ -8,7 +8,9 @@ import { User, UserSchema } from "src/schemas/user.schema";
 import { MongooseModule } from "@nestjs/mongoose";
 import { EnviromentConfigModule } from "src/config/config.module";
 import { EnviromentConfig } from "src/config/config.service";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { MessageModule } from "src/message/message.module";
+import { MessageService } from "src/message/message.service";
+import { Message, MessageSchema } from "src/schemas/message.schema";
 
 @Module({
     imports: [
@@ -19,11 +21,12 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
             }),
             inject: [EnviromentConfig],
         }),
-        UserModule, MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        UserModule,
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ],
 
     controllers: [AuthController],
-    providers: [AuthService, UserService],
+    providers: [AuthService, UserService, MessageService],
     exports: [AuthService],
 })
 

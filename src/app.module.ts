@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EnviromentConfig } from 'src/config/config.service';
 import { MongooseCustomModules } from 'src/config/databases/database.module';
 import { EnviromentConfigModule } from 'src/config/config.module';
+import { MessageModule } from 'src/message/message.module';
 @Module({
   imports: [ // import module
     MongooseCustomModules,
@@ -19,7 +20,8 @@ import { EnviromentConfigModule } from 'src/config/config.module';
       isGlobal: true,
       envFilePath: '.env'
     }),
-    EnviromentConfigModule
+    EnviromentConfigModule,
+    MessageModule
   ],
 
   controllers: [AppController],
