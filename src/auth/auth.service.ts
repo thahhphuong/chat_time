@@ -42,7 +42,9 @@ export class AuthService {
                 "password invalid", HttpStatus.BAD_REQUEST
             )
         }
-        const payload = { user: user.userName };
+        const { password, ...lest } = user
+
+        const payload = { user: lest };
 
         const access_token = await this.jwtService.signAsync(payload, {
             expiresIn: "1h",

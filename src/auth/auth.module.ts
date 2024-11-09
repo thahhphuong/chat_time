@@ -6,7 +6,6 @@ import { UserService } from "src/user/user.service";
 import { JwtModule } from '@nestjs/jwt';
 import { User, UserSchema } from "src/schemas/user.schema";
 import { MongooseModule } from "@nestjs/mongoose";
-import { jwtConstants } from "src/auth/constants";
 import { EnviromentConfigModule } from "src/config/config.module";
 import { EnviromentConfig } from "src/config/config.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";

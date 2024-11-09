@@ -15,11 +15,11 @@ export class AuthController {
         return newUser
     }
 
-    // @UseGuards(AuthGuard)
-    // @Get('profile')
-    // getProfile(@Request() req: any) {
-    //     return req.user;
-    // }
+    @UseGuards(AuthGuard)
+    @Get('profile')
+    getProfile(@Request() req: any) {
+        return req.user;
+    }
 
     @Post("login")
     async login(@Body() body: { userName: string, password: string }) {
