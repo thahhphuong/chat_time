@@ -26,10 +26,6 @@ export class AuthService {
         body.password = hashPassword
 
         const createUser = await this.userService.create(body)
-
-        // if (user.password != body.password) {
-        //     throw new UnauthorizedException()
-        // }
         return createUser
     }
 
@@ -46,13 +42,18 @@ export class AuthService {
                 "password invalid", HttpStatus.BAD_REQUEST
             )
         }
-        const payload = { user: user.userName };
+        const { password, ...lest } = user
+
+        const payload = { user: lest };
+
         const access_token = await this.jwtService.signAsync(payload, {
-            expiresIn: "1h"
-        })
+            expiresIn: "1h",
+
+        },)
         const refresh_token = await this.jwtService.signAsync(payload, {
-            expiresIn: "5h"
+            expiresIn: "5h",
         })
+        // this.jwtService.verify(access_token,);
         return { access_token, refresh_token, user }
     }
 }

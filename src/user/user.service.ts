@@ -17,11 +17,11 @@ export class UserService {
         return createdCat.save()
     }
     async getInfo(id: ObjectId): Promise<User> {
-        const user = await this.userModel.findOne({ _id: id })
+        const user = await this.userModel.findOne({ _id: id }).lean()
         return user
     }
     async getInfoByUserName(name: string): Promise<User> {
-        const user = await this.userModel.findOne({ userName: name })
+        const user = await this.userModel.findOne({ userName: name }).lean()
         return user
     }
 } 
