@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import mongoose, { Model, mongo, ObjectId } from "mongoose";
+import { CreateMessageDto } from "src/message/message.dto";
 import { Message } from "src/schemas/message.schema";
 
 @Injectable()
@@ -21,5 +22,9 @@ export class MessageService {
         }).exec()
 
         return messages
+    }
+    async create(data: CreateMessageDto): Promise<Message | any> {
+        // const created = new this.messageModel(data)
+        return data
     }
 }

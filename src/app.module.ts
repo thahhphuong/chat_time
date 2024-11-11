@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from 'src/user/user.module';
 import { AuthModule } from 'src/auth/auth.module';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpExceptionFilter } from 'src/common/http-exception.filter';
 import { ConfigModule } from '@nestjs/config';
 import { EnviromentConfig } from 'src/config/config.service';
@@ -12,10 +12,11 @@ import { MongooseCustomModules } from 'src/config/databases/database.module';
 import { EnviromentConfigModule } from 'src/config/config.module';
 import { MessageModule } from 'src/message/message.module';
 import { EventsModule } from 'src/chat/events/events.module';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [ // import module
     MongooseCustomModules,
-    UserModule,
     AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
@@ -23,7 +24,9 @@ import { EventsModule } from 'src/chat/events/events.module';
     }),
     EnviromentConfigModule,
     MessageModule,
-    EventsModule
+    EventsModule,
+    UserModule,
+
   ],
 
   controllers: [AppController],

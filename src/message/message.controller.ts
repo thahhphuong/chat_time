@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { CreateMessageDto } from 'src/message/message.dto';
 import { MessageService } from 'src/message/message.service';
 
 @Controller("messages")
@@ -8,14 +9,13 @@ export class MessageController {
         private readonly messageService: MessageService
     ) { }
 
-    // @UseGuards(AuthGuard)
     @Get()
     findAll(): string {
         return 'This action returns all message';
     }
-    // @Post()
-    // async create(@Body() body: UserDto) {
-    //     const newUser = await this.messageService.getInfoMess()
-    //     return newUser
-    // }
+    @UseGuards(AuthGuard)
+    @Post("")
+    async create(@Body() body: CreateMessageDto) {
+        return await this.messageService.create(body)
+    }
 }

@@ -11,25 +11,26 @@ import { EnviromentConfig } from "src/config/config.service";
 import { MessageModule } from "src/message/message.module";
 import { MessageService } from "src/message/message.service";
 import { Message, MessageSchema } from "src/schemas/message.schema";
+import { AuthGuard } from "src/auth/auth.guard";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
     imports: [
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        // MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),
         JwtModule.registerAsync({
             imports: [EnviromentConfigModule],
             useFactory: async (configService: EnviromentConfig) => ({
-                secret: configService.privateTokenKey()
+                secret: configService.privateTokenKey(),
+                global: true
             }),
             inject: [EnviromentConfig],
         }),
-        UserModule, MessageModule,
-        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-        MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),
-
     ],
 
     controllers: [AuthController],
-    providers: [AuthService, UserService, MessageService],
-    exports: [AuthService],
+    providers: [AuthService, UserService],
+    exports: [JwtModule],
 })
 
 export class AuthModule { }
