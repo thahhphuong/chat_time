@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { UserDto } from 'src/user/user.dto';
 import { UserService } from 'src/user/user.service';
 @Controller("users")
@@ -6,9 +7,10 @@ export class UserController {
     constructor(
         private readonly userService: UserService
     ) { }
-    @Get()
-    findAll(): string {
-        return 'This action returns all cats';
+    @UseGuards(AuthGuard)
+    @Get('/profile')
+    getProfile(@Request() req: any) {
+        return req.user;
     }
     @Post()
     async create(@Body() body: UserDto) {
