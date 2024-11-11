@@ -11,6 +11,7 @@ import { EnviromentConfig } from 'src/config/config.service';
 import { MongooseCustomModules } from 'src/config/databases/database.module';
 import { EnviromentConfigModule } from 'src/config/config.module';
 import { MessageModule } from 'src/message/message.module';
+import { EventsModule } from 'src/chat/events/events.module';
 @Module({
   imports: [ // import module
     MongooseCustomModules,
@@ -21,7 +22,8 @@ import { MessageModule } from 'src/message/message.module';
       envFilePath: '.env'
     }),
     EnviromentConfigModule,
-    MessageModule
+    MessageModule,
+    EventsModule
   ],
 
   controllers: [AppController],

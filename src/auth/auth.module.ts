@@ -21,8 +21,10 @@ import { Message, MessageSchema } from "src/schemas/message.schema";
             }),
             inject: [EnviromentConfig],
         }),
-        UserModule,
+        UserModule, MessageModule,
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),
+
     ],
 
     controllers: [AuthController],
