@@ -12,7 +12,7 @@ import { Message, MessageSchema } from "src/schemas/message.schema";
     providers: [MessageService], // call service
     imports: [
         MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),
-        AuthModule
+        // AuthModule
     ]
 })
 export class MessageModule { }

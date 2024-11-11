@@ -8,7 +8,7 @@ export class MessageController {
         private readonly messageService: MessageService
     ) { }
 
-    @UseGuards(AuthGuard)
+    // @UseGuards(AuthGuard)
     @Get()
     findAll(): string {
         return 'This action returns all message';
