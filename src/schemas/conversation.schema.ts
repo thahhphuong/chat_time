@@ -6,8 +6,9 @@ import { User } from 'src/schemas/user.schema';
 export class Conversation {
     @Prop({ required: true, type: String })
     conversationName: string
-    // @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Message' })
-    // sender: Message
+
+    @Prop({ required: true, type: [String] })
+    members: [string]
 
 }
 export const ConversationSchema = SchemaFactory.createForClass(Conversation);

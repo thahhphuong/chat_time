@@ -1,15 +1,15 @@
+import { UsePipes } from "@nestjs/common";
 import { Transform } from "class-transformer";
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import mongoose, { isValidObjectId, ObjectId } from "mongoose";
-import { IsMongoObjectId, ValidationPipe } from "src/common/validation.pipe";
+import { isMongoObjectId } from "src/common/check-objectid-mongo";
+
 
 export class CreateMessageDto {
     @IsNotEmpty()
     content: string
-    // @IsNotEmpty()
-    // // @IsObjectId(({ value }))
-    // receiver: ObjectId
-    // @IsNotEmpty()
-    // conversation: ObjectId
+    @IsOptional()
+    receiver: ObjectId
+    @IsOptional()
     conversation: ObjectId
 }
