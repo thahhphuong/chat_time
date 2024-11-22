@@ -13,11 +13,13 @@ import { MessageService } from "src/message/message.service";
 import { Message, MessageSchema } from "src/schemas/message.schema";
 import { AuthGuard } from "src/auth/auth.guard";
 import { APP_GUARD } from "@nestjs/core";
+import { Conversation, ConversationSchema } from "src/schemas/conversation.schema";
+import { ConversationService } from "src/conversation/conversation.service";
+import { ConnectCollectionMongoModule } from "src/config/databases/conect-collection-mongose.module";
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-        // MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),
+        ConnectCollectionMongoModule,
         JwtModule.registerAsync({
             imports: [EnviromentConfigModule],
             useFactory: async (configService: EnviromentConfig) => ({
@@ -29,8 +31,8 @@ import { APP_GUARD } from "@nestjs/core";
     ],
 
     controllers: [AuthController],
-    providers: [AuthService, UserService],
-    exports: [JwtModule],
+    providers: [AuthService, UserService, ConversationService],
+    exports: [JwtModule, AuthService],
 })
 
 export class AuthModule { }

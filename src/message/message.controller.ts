@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateMessageDto } from 'src/message/message.dto';
 import { MessageService } from 'src/message/message.service';
@@ -15,7 +15,9 @@ export class MessageController {
     }
     @UseGuards(AuthGuard)
     @Post("")
-    async create(@Body() body: CreateMessageDto) {
+    async create(@Body() body: CreateMessageDto, @Request() req: any) {
+        console.log(req.user);
+
         return await this.messageService.create(body)
     }
 }

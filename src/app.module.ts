@@ -14,8 +14,11 @@ import { MessageModule } from 'src/message/message.module';
 import { EventsModule } from 'src/chat/events/events.module';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { ConversationModule } from 'src/conversation/conversation.module';
+import { ConnectCollectionMongoModule } from 'src/config/databases/conect-collection-mongose.module';
 @Module({
   imports: [ // import module
+    ConnectCollectionMongoModule,
     MongooseCustomModules,
     AuthModule,
     ConfigModule.forRoot({
@@ -26,6 +29,7 @@ import { JwtModule } from '@nestjs/jwt';
     MessageModule,
     EventsModule,
     UserModule,
+    ConversationModule,
 
   ],
 

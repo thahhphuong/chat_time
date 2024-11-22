@@ -26,4 +26,8 @@ export class AuthController {
         const newUser = await this.authService.singIn(body.userName, body.password)
         return newUser
     }
+    @Post("/refresh-token")
+    async refreshToken(@Body() body: { access_token: string }) {
+        return this.authService.refreshToken(body.access_token)
+    }
 }
