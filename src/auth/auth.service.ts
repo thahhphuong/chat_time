@@ -56,4 +56,25 @@ export class AuthService {
         // this.jwtService.verify(access_token,);
         return { access_token, refresh_token, user }
     }
+    async refreshToken(token: string): Promise<string | any> {
+        try {
+            const verifyToken = this.jwtService.verify(token)
+            const { user } = verifyToken
+            return {
+                access_token: await this.jwtService.signAsync(user, {
+                    expiresIn: "1h",
+
+                },),
+                refresh_token: await this.jwtService.signAsync(user, {
+                    expiresIn: "5h",
+                })
+            }
+
+            return verifyToken
+        } catch (error) {
+            throw new HttpException(
+                error.message, HttpStatus.BAD_REQUEST
+            )
+        }
+    }
 }
